@@ -8,6 +8,12 @@ const Container = styled.div`
   width: 400px;
   height: 450px;
   /* border: 1px solid lime; */
+
+  @media screen and (max-width: 640px){
+    width: 350px;
+    height: 380px
+  }
+
 `;
 const ImgContainer = styled.div`
   height: 70%;
@@ -33,14 +39,14 @@ const Title = styled.p`
   text-align: justify;
   font-weight: 700;
   color: black;
-  font-size: 18px;
+  font-size: 1rem;
   cursor: pointer;
   padding: 5px;
 `;
 const Seller = styled.p`
   color: #2c2c2c;
   font-weight: 500;
-  font-size: 14px;
+  font-size: .8rem;
   margin-left: 5px;
 `;
 const BottomContainer = styled.div`
@@ -60,6 +66,7 @@ const Price = styled.div`
   display: flex;
   margin-left: 15px;
   gap: 10px;
+  font-size: .85rem;
 `;
 const Button = styled.button`
   border: transparent;

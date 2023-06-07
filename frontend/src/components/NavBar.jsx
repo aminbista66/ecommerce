@@ -20,7 +20,9 @@ const Left = styled.div`
   align-items: center;
   justify-content: center;
 
-  
+  @media screen and (max-width: 640px) {
+    font-size: 8px;
+  }
 `;
 const Mid = styled.div`
   flex: 3;
@@ -62,6 +64,13 @@ const Button = styled.button`
   }
 `;
 
+const Text = styled.span`
+    @media screen and (max-width: 640px) {
+    display: none;
+  }
+
+`
+
 const AuthLinks = () => {
   return (
     <span>
@@ -96,7 +105,7 @@ function NavBar() {
           <Input placeholder="SEARCH ITEMS" />
           <Button>
             <SearchOutlined style={{ marginRight: "4px" }} />
-            SEARCH
+            <Text>SEARCH</Text>
           </Button>
         </Mid>
         <Right>{isLoggedIn ? <Carts /> : <AuthLinks />}</Right>

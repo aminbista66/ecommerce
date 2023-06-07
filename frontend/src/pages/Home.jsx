@@ -5,7 +5,10 @@ import styled from "styled-components";
 // import {data} from '../assets/data'
 
 const Container = styled.div`
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
 `;
 
 function Home() {
