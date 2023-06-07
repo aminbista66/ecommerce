@@ -19,6 +19,8 @@ const Left = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  
 `;
 const Mid = styled.div`
   flex: 3;

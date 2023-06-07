@@ -1,10 +1,17 @@
-import { Grid, Box } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import Product from './Product';
+import styled from 'styled-components';
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 80px;
+`
 
 const ProductList = () => {
   return (
     <Box>
-      <Grid templateColumns="repeat(4, 1fr)" gap={8}>
+      <Grid>
           <Product />
           <Product />
           <Product />
