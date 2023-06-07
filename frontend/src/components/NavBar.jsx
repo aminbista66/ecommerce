@@ -6,17 +6,14 @@ import { ProfileLink } from "./index";
 
 const Container = styled.div`
   background-color: white;
-  border: 1px solid black;
-  width: 100vw;
+  border-bottom: 1px solid black;
+  width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 `;
 const Left = styled.div`
-  border: 1px solid black;
-  margin: 0;
-  padding: 0 8px;
+  border-right: 1px solid black;
   height: inherit;
   flex: 1;
   display: flex;
@@ -27,7 +24,6 @@ const Mid = styled.div`
   flex: 3;
   height: inherit;
   display: flex;
-  align-items: center;
 `;
 const Right = styled.div`
   flex: 1;

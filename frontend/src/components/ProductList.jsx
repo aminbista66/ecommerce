@@ -1,11 +1,18 @@
-import styled from 'styled-components'
+import { Grid, Box } from '@chakra-ui/react';
+import Product from './Product';
 
-const Container = styled.div``
-
-function ProductList() {
+const ProductList = () => {
   return (
-    <Container>ProductList</Container>
-  )
-}
+    <Box>
+      <Grid templateColumns="repeat(4, 1fr)" gap={8}>
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+      </Grid>
+    </Box>
+  );
+};
 
-export default ProductList
+export default ProductList;
