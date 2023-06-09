@@ -1,8 +1,6 @@
 import { NavBar } from "../components";
 import { ProductList } from "../components";
 import styled from "styled-components";
-// import Product from "../components/test";
-// import {data} from '../assets/data'
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +15,6 @@ function Home() {
       <NavBar />
       <Container>
         <ProductList />
-        {/* <Product data={data[0]}/> */}
       </Container>
     </>
   );

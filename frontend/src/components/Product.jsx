@@ -3,6 +3,8 @@ import { Stack } from "@chakra-ui/react";
 import Rating from "./Rating";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useRef } from "react";
+import Badge from './Badge'
+import { BadgeColorScheme } from "./Badge";
 
 const Container = styled.div`
   width: 400px;
@@ -28,13 +30,7 @@ const ActionContainer = styled.div`
   height: 30%;
   width: inherit;
 `;
-const Badge = styled.span`
-  background-color: ${({ scheme }) => scheme.bg};
-  font-weight: bold;
-  font-size: 12px;
-  padding: 2px 5px;
-  border-radius: 4px;
-`;
+
 const Title = styled.p`
   text-align: justify;
   font-weight: 700;
@@ -43,18 +39,22 @@ const Title = styled.p`
   cursor: pointer;
   padding: 5px;
 `;
+
 const Seller = styled.p`
   color: #2c2c2c;
   font-weight: 500;
   font-size: .8rem;
   margin-left: 5px;
 `;
+
 const BottomContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-left: 5px;
+  margin-top: 10px;
 `;
+
 const PriceCartAction = styled.div`
   /* background-color: red; */
   height: 50px;
@@ -62,12 +62,14 @@ const PriceCartAction = styled.div`
   display: flex;
   align-items: center;
 `;
+
 const Price = styled.div`
   display: flex;
   margin-left: 15px;
   gap: 10px;
   font-size: .85rem;
 `;
+
 const Button = styled.button`
   border: transparent;
   outline: none;
@@ -80,21 +82,6 @@ const Button = styled.button`
     background-color: #eeeeee;
   }
 `;
-
-const BadgeColorScheme = {
-  green: {
-    bg: "#9AE6B4",
-    text: "#48BB78",
-  },
-  red: {
-    bg: "#FEB2B2",
-    text: "#F56565",
-  },
-  purple: {
-    bg: "#D6BCFA",
-    text: "#9F7AEA",
-  },
-};
 
 function Product() {
   const cartRef = useRef(null)
