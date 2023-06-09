@@ -7,7 +7,19 @@ import {
 import Rating from './Rating';
 import { IconButton } from '@chakra-ui/react';
 
-const Product = ({ data }) => {
+const data = 
+  {
+      image: 'https://source.unsplash.com/random/900x700/?t-shirt',
+      quantity: 9,
+      discount: 20,
+      title: 'T-shirt for summer 100% cotton',
+      seller: 'Ghumti Pasal',
+      price: 1200,
+      net_price: 1000,
+      rating: 3.6,
+  }
+
+const Product = () => {
   return (
     <>
       <div className={styles.container}>

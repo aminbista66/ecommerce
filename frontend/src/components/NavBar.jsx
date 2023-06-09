@@ -19,6 +19,8 @@ const Left = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
 
   @media screen and (max-width: 640px) {
     font-size: 8px;
@@ -82,10 +84,10 @@ const AuthLinks = () => {
 const Carts = () => {
   return (
     <>
-      <Link>
+      {/* <Link>
         <ProfileLink />
-      </Link>
-      <ShoppingCartOutlined style={{ fontSize: "20px" }} />
+      </Link> */}
+      <ShoppingCartOutlined style={{ fontSize: "24px", cursor: 'pointer' }} />
     </>
   );
 };
@@ -96,9 +98,9 @@ function NavBar() {
     <>
       <Container>
         <Left>
-          <h1>
+          <Link to={'/'}>
             <span style={{ color: "#22c55e" }}>E</span>-com
-          </h1>
+          </Link>
         </Left>
 
         <Mid>
