@@ -10,16 +10,36 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  InputGroup,
+  InputRightElement,
+  Center,
 } from "@chakra-ui/react";
-import { BiArrowBack } from "react-icons/bi";
+import { ViewIcon, ViewOffIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { Logo } from "../components";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const initialData = Object.freeze({
+    email: "",
+    password: "",
+  });
+
+  const [data, setData] = useState(initialData);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
   return (
     <>
       <Box bg={useColorModeValue("gray.50", "gray.800")}>
         <Button
-          leftIcon={<BiArrowBack />}
+          leftIcon={<ArrowBackIcon />}
           color={"grey.900"}
           variant="link"
           sx={{
@@ -29,6 +49,7 @@ export default function Login() {
             outline: "none",
             padding: "10px",
           }}
+          onClick={() => navigate("/")}
         >
           Home
         </Button>
@@ -67,11 +88,27 @@ export default function Login() {
             <Stack spacing={4}>
               <FormControl id="email">
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" name="email" />
+                <Input type="email" name="email" onChange={handleChange} />
               </FormControl>
               <FormControl id="password">
                 <FormLabel>Password</FormLabel>
-                <Input type="password" name="password" />
+                <InputGroup>
+                  <Input
+                    onChange={handleChange}
+                    name="password2"
+                    type={showPassword ? "text" : "password"}
+                  />
+                  <InputRightElement h={"full"}>
+                    <Button
+                      variant={"ghost"}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon/> : <ViewOffIcon/>}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
               </FormControl>
               <Stack spacing={10}>
                 <Stack
@@ -97,6 +134,9 @@ export default function Login() {
                 >
                   Login
                 </Button>
+                <Center>
+                  <Link href={'/register'} color={"grey.900"}>Don't have an account?</Link>
+                </Center>
               </Stack>
             </Stack>
           </Box>
