@@ -87,7 +87,9 @@ const Carts = () => {
       {/* <Link>
         <ProfileLink />
       </Link> */}
-      <ShoppingCartOutlined style={{ fontSize: "24px", cursor: 'pointer' }} />
+      <Link to={'/cart'}>
+        <ShoppingCartOutlined style={{ fontSize: "24px", cursor: 'pointer' }} />
+      </Link>
     </>
   );
 };

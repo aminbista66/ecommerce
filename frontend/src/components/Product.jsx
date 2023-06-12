@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Stack, Badge, IconButton } from "@chakra-ui/react";
 import Rating from "./Rating";
 import { BsCart3 } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 400px;
@@ -90,7 +91,9 @@ function Product() {
           <Badge colorScheme="green">TOP SELLER</Badge>
           <Badge colorScheme="red">BEST OFFER</Badge>
         </Stack>
+        <Link to={'product/1'}>
         <Title>T-shirt for summer 100% cotton</Title>
+        </Link>
         <Seller>By . Ghumti Pasal</Seller>
         <BottomContainer>
           <Rating rating={3.6} />

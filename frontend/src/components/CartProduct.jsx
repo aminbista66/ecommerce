@@ -44,6 +44,7 @@ const Image = styled.img`
   width: 110px;
   object-fit: cover;
   border-radius: 8px;
+  padding: 4px;
 `;
 const Detail = styled.div`
   padding: 0 1rem;

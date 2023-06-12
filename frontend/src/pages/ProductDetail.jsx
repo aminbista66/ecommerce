@@ -219,22 +219,6 @@ export default function ProductDetail() {
                 >
                   Add to cart
                 </Button>
-                <Button
-                  rounded={'none'}
-                  w={'full'}
-                  size={'lg'}
-                  py={'7'}
-                  bg="tomato"
-                  color="white"
-                  textTransform={'uppercase'}
-                  _hover={{
-                    transform: 'translateY(2px)',
-                    boxShadow: 'lg',
-                  }}
-                  disabled
-                >
-                  Add to Wishlist
-                </Button>
               </Stack>
             ) : (
               <Box>
@@ -247,12 +231,6 @@ export default function ProductDetail() {
                 >
                   QUANTITY
                 </Text>
-                {/* <Quantity
-                  available_quantity={
-                    data.quantity !== undefined && data.quantity
-                  }
-                  
-                /> */}
                 <NumberInput
                   value={value}
                   size="md"
@@ -284,21 +262,6 @@ export default function ProductDetail() {
                     onClick={()=> AddToCart(data.slug, value)}
                   >
                     Add to cart
-                  </Button>
-                  <Button
-                    rounded={'none'}
-                    w={'full'}
-                    size={'lg'}
-                    py={'7'}
-                    bg="tomato"
-                    color="white"
-                    textTransform={'uppercase'}
-                    _hover={{
-                      transform: 'translateY(2px)',
-                      boxShadow: 'lg',
-                    }}
-                  >
-                    Add to Wishlist
                   </Button>
                 </Stack>
               </Box>

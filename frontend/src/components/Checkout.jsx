@@ -24,11 +24,11 @@ function Checkout() {
     <Box w={"400px"} bg={"#f7fafc"} padding={"2rem"} borderRadius={"0.5rem"}>
       <Flex direction={"column"}>
         <Box>
-          <Text>
-            Order Summary
-            </Text>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-          <TextLight>
+          <Text>Order Summary</Text>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <TextLight>
               <span>Subtotal</span>
               <span>$499</span>
             </TextLight>
@@ -42,7 +42,23 @@ function Checkout() {
             </Text>
           </div>
         </Box>
-        <Button colorScheme="blue">Checkout</Button>
+        {/* <Button colorScheme="blue">Checkout</Button> */}
+        <Button
+          rounded={"md"}
+          w={"full"}
+          size={"lg"}
+          py={"7"}
+          bg="gray.900"
+          color="white"
+          textTransform={"uppercase"}
+          _hover={{
+            transform: "translateY(2px)",
+            boxShadow: "lg",
+          }}
+          disabled
+        >
+          Checkout
+        </Button>
       </Flex>
     </Box>
   );
