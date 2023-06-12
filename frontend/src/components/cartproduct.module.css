@@ -1,0 +1,9 @@
+.del {
+    display: flex;
+    flex-direction: row-reverse;
+    color: rgb(49, 130, 206);
+    cursor: pointer;
+}
+.del:hover{
+    text-decoration: underline;
+}

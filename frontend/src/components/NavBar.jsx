@@ -1,8 +1,8 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import { SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ProfileLink } from "./index";
 
 const Container = styled.div`
   background-color: white;

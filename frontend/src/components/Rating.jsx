@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Box } from '@chakra-ui/react';
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 
