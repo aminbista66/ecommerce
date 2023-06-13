@@ -23,7 +23,7 @@ const Left = styled.div`
   font-weight: bold;
 
   @media screen and (max-width: 640px) {
-    font-size: 8px;
+    font-size: 1rem;
   }
 `;
 const Mid = styled.div`
@@ -38,6 +38,10 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+
+  @media screen and (max-width: 640px) {
+    font-size: .55rem;
+  }
 `;
 
 const Input = styled.input`
@@ -76,7 +80,7 @@ const Text = styled.span`
 const AuthLinks = () => {
   return (
     <span>
-      <Link>LOGIN</Link> / <Link>REGISTER</Link>
+      <Link to='/login' >LOGIN</Link> / <Link to={'/register'}>REGISTER</Link>
     </span>
   );
 };

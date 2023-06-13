@@ -8,7 +8,12 @@ const List = styled.div`
   row-gap: 80px;
   column-gap: 50px;
 
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 640px){
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+  }
+  @media screen and (max-width: 820px) {
     display: flex;
     flex-direction: column;
     gap: 60px;
