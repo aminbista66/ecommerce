@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 from django.contrib.auth import authenticate
 
@@ -45,4 +46,27 @@ class LoginView(APIView):
             'message': 'email or password incorrect'
         }
         response.status_code = 403
+        return response
+
+
+class TokenRefreshView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, *args, **kwargs):
+        token = self.request.COOKIES.get('refresh_token')
+
+        response = Response()
+
+        if token is not None:
+            serializer = TokenRefreshSerializer(data={'refresh': token})
+            serializer.is_valid(raise_exception=True)
+            access_token = serializer.validated_data['access']
+
+            response.set_cookie('access_token', str(access_token), httponly=True, secure=False, samesite='Lax')
+            response.data = {'message': 'Token Refreshed successfully'}
+            response.status_code = 200
+            return response
+
+        response.data = {'message': 'Token missing'}
+        response.status_code = 404
         return response
