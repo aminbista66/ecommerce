@@ -1,13 +1,19 @@
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import views
 from rest_framework import permissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
+from rest_framework import generics
 
 from django.contrib.auth import authenticate
 
+from .serializers import user
 
-class LoginView(APIView):
+class RegisterView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = user.UserCreateSerializer
+
+class LoginView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, *args, **kwargs):
@@ -49,7 +55,7 @@ class LoginView(APIView):
         return response
 
 
-class TokenRefreshView(APIView):
+class TokenRefreshView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, *args, **kwargs):
