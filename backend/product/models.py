@@ -5,7 +5,6 @@ from user.models import User
 
 
 class Product(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
     slug = models.SlugField()
     title = models.CharField(max_length=526, null=False, blank=False)
     description = models.CharField(max_length=1080*4)
