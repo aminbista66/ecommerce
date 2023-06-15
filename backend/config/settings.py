@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 	'corsheaders',
     'debug_toolbar',
     'user',
+    'product',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
