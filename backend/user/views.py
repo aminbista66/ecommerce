@@ -6,8 +6,11 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework import generics
 
 from django.contrib.auth import authenticate
+import uuid
 
 from .serializers import user
+from .models import User
+
 
 class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
@@ -76,3 +79,22 @@ class TokenRefreshView(views.APIView):
         response.data = {'message': 'Token missing'}
         response.status_code = 404
         return response
+
+class IssuePasswordResetView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, *args, **kwargs):
+        data : dict = self.request.data
+        email = data.get('email')
+
+        if email is not None:
+            user_list = User.objects.filter(email=email)
+            if user is None:
+                return Response({'message': 'User not found'}, status=404)
+
+            ''' Issue a reset token '''
+            user: User = user_list.first()
+            user.reset_token = uuid.uuid4()
+            user.save()
+
+            
