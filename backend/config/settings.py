@@ -188,13 +188,9 @@ CORS_ALLOWED_ORIGINS = []
 
 INTERNAL_IPS = [
     "127.0.0.1",
-<<<<<<< HEAD
-]
-=======
 ]
 
 
 ''' FOR DEVELOPMENT ONLY !!!! '''
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'ecommerce@gmail.com'
->>>>>>> password-reset
