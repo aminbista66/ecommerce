@@ -154,7 +154,6 @@ class ResetPasswordView(views.APIView):
             response.status_code = 403
             return response
 
-        user = self.verify_token()
         if user is None:
             response.data = {
                 'message': 'Invalid Token'
