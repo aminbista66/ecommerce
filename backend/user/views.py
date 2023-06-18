@@ -122,7 +122,10 @@ class IssuePasswordResetView(views.APIView):
         return Response({'message': 'email should be provided'}, status=403)
 
 
-''' Only client server will send request to this endpoint so AllowedHostPermission must be used. OR CORS settings can be changed'''
+''' 
+    Only client server will send request to this endpoint so AllowedHostPermission must be used.
+    OR CORS settings can be changed
+'''
 
 
 class ResetPasswordView(views.APIView):
@@ -144,7 +147,6 @@ class ResetPasswordView(views.APIView):
             'password': data.get('password'),
             'password2': data.get('password2'),
         }
-        print(password_object)
         response = Response()
 
         if any(value is None for value in password_object.values()):
