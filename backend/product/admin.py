@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductImage, CartProduct, Order
+from .models import Product, ProductImage, CartProduct, Order, Review
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -50,3 +50,4 @@ admin.site.register(ProductImage, ProductImageAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(CartProduct, CartProductAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(Review)

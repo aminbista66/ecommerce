@@ -21,7 +21,8 @@ class Product(models.Model):
         return self.slug
 
     def save(self, *args, **kwargs):
-        self.slug = slugify('product-' + self.title + str(uuid.uuid4())[:4])
+        if self.slug == '':
+            self.slug = slugify('product-' + self.title + str(uuid.uuid4())[:4])
         return super().save(*args, **kwargs)
 
 class ProductImage(models.Model):
@@ -47,7 +48,8 @@ class CartProduct(models.Model):
         return self.quantity * self.product.net_price()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify('cart-' + self.product.title + str(uuid.uuid4())[:4])
+        if self.slug == '':
+            self.slug = slugify('cart-' + self.product.title + str(uuid.uuid4())[:4])
         return super().save(*args, **kwargs)
 
 class Order(models.Model):
@@ -80,4 +82,4 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return 'rv-' + self.product.title + ' | by-' + self.user
+        return 'rv-' + self.product.title + ' | by-' + self.user.email

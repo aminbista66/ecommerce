@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import CartProduct, ProductImage #Review
+from ..models import CartProduct, ProductImage, Review
 
 class CartSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.title')
@@ -7,7 +7,7 @@ class CartSerializer(serializers.ModelSerializer):
     price = serializers.SerializerMethodField(read_only=True)
     product_slug = serializers.CharField(source='product.slug')
     seller = serializers.CharField(source='product.seller')
-    # rating = serializers.SerializerMethodField(read_only=True)
+    rating = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = CartProduct
@@ -21,7 +21,7 @@ class CartSerializer(serializers.ModelSerializer):
             'images',
             'price',
             'quantity',
-            # 'rating'
+            'rating',
         )
 
     def get_images(self, obj):
@@ -31,11 +31,11 @@ class CartSerializer(serializers.ModelSerializer):
     def get_price(self, obj: CartProduct):
         return obj.net_price()
 
-    # def get_rating(self, obj):
-    #     reviews = Review.objects.filter(product__slug=obj.product.slug)
-    #     stars = [i.stars for i in reviews]
-    #     if self.custom_mean(stars) != None: 
-    #         return self.custom_mean(stars)
+    def get_rating(self, obj):
+        reviews = Review.objects.filter(product__slug=obj.product.slug)
+        stars = [i.stars for i in reviews]
+        if self.custom_mean(stars) != None: 
+            return self.custom_mean(stars)
 
     def custom_mean(self, l):
         if len(l) == 0:

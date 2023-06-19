@@ -1,4 +1,5 @@
 from django.db.models import Q, F
+from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
 
 from rest_framework.response import Response
 from rest_framework import views
@@ -34,6 +35,18 @@ class DeatilProductView(generics.RetrieveAPIView):
     permission_class = [permissions.AllowAny]
     queryset = Product.objects.all()
     lookup_field = 'slug'
+
+
+class SearchProductView(views.APIView):
+    def get(self, *args, **kwargs):
+        query = self.request.GET.get('q')
+        search_query = SearchQuery(query)
+        search_vector = SearchVector('title', 'description')
+        queryset = Product.objects.annotate(
+            search=search_vector, rank=SearchRank(search_vector, search_query)
+        ).filter(search=search_query).order_by('-rank')
+        searializer = product.ProductSerializer(queryset, many=True)
+        return Response(searializer.data, status=200)
 
 
 class AddToCartView(generics.GenericAPIView):
@@ -75,6 +88,7 @@ class AddToCartView(generics.GenericAPIView):
 
             return Response({"message": "Product Successfully Added To Cart"}, status=200)
 
+
 class ListCartProductView(generics.ListAPIView):
     permission_class = [permissions.IsAuthenticated]
     serializer_class = cart.CartSerializer
@@ -83,3 +97,63 @@ class ListCartProductView(generics.ListAPIView):
     def get_queryset(self):
         qs = CartProduct.objects.filter(user__id=get_user(self.request))
         return qs
+
+
+class DeleteCartProductView(generics.DestroyAPIView):
+    permission_class = [permissions.IsAuthenticated]
+    lookup_field = 'slug'
+
+    def get_queryset(self):
+        user = User.objects.get(id=get_user(self.request))
+        qs = CartProduct.objects.filter(user=user)
+        return qs
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "successfully deleted"}, status=204)
+
+
+class DecreaseQuantityView(generics.GenericAPIView):
+    permission_class = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        cart_product = CartProduct.objects.filter(slug=kwargs.get('slug'))
+
+        if cart_product.exists():
+            cart_product_ = cart_product.first()
+
+            if cart_product_.quantity < int(request.data['quantity']):
+                return Response({"message": "cart product quantity is less than the given quantity"})
+
+            if cart_product_.quantity == int(request.data['quantity']):
+                return Response({"message": "cant remove all the quantity, must have atleast one or remove the product"})
+
+            cart_product_.quantity = F(
+                'quantity') - int(request.data.get('quantity'))
+            cart_product_.save()
+            return Response({"quantity": f'{cart_product.first().quantity}', 'decreased quantity': f'{request.data.get("quantity")}'})
+        return Response({"message": "Product not Found"}, status=404)
+
+
+class IncreaseQuantityView(generics.GenericAPIView):
+    permission_class = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        cart_product = CartProduct.objects.filter(slug=kwargs.get('slug'))
+
+        if cart_product.exists():
+            cart_product_ = cart_product.first()
+            product = Product.objects.get(slug=cart_product_.product.slug)
+
+            if int(cart_product_.quantity) + int(request.data['quantity']) > int(product.quantity):
+                return Response({"message": "not enough in stock"})
+
+            if int(product.quantity) < int(request.data.get('quantity')):
+                return Response({"message": "not enough in stock"})
+
+            cart_product_.quantity = F(
+                'quantity') + int(request.data.get('quantity'))
+            cart_product_.save()
+            return Response({"quantity": f'{cart_product.first().quantity}', 'added quantity': f'{request.data.get("quantity")}'})
+        return Response({"message": "Product not Found"}, status=404)
