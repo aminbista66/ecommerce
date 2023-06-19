@@ -64,8 +64,8 @@ class LogoutView(views.APIView):
     def post(self, *args, **kwargs):
         try:
             response = Response()
-            # response.delete_cookie('access_token')
-            # response.delete_cookie('refresh_token')
+            response.delete_cookie('access_token')
+            response.delete_cookie('refresh_token')
             response.data = {
                 'message': 'Logout successfull'
             }
