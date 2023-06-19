@@ -58,6 +58,22 @@ class LoginView(views.APIView):
         response.status_code = 403
         return response
 
+class LogoutView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, *args, **kwargs):
+        try:
+            response = Response()
+            # response.delete_cookie('access_token')
+            # response.delete_cookie('refresh_token')
+            response.data = {
+                'message': 'Logout successfull'
+            }
+            response.status_code = 200
+            return response
+        except Exception as e:
+            print(e)
+            return Response({'message': 'something went wrong'}, status=500)
 
 class TokenRefreshView(views.APIView):
     permission_classes = [permissions.AllowAny]
@@ -122,7 +138,10 @@ class IssuePasswordResetView(views.APIView):
         return Response({'message': 'email should be provided'}, status=403)
 
 
-''' Only client server will send request to this endpoint so AllowedHostPermission must be used. OR CORS settings can be changed'''
+''' 
+    Only client server will send request to this endpoint so AllowedHostPermission must be used.
+    OR CORS settings can be changed
+'''
 
 
 class ResetPasswordView(views.APIView):
@@ -144,7 +163,6 @@ class ResetPasswordView(views.APIView):
             'password': data.get('password'),
             'password2': data.get('password2'),
         }
-
         response = Response()
 
         if any(value is None for value in password_object.values()):
