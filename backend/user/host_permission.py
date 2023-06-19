@@ -4,5 +4,4 @@ class AllowedHostPermission(BasePermission):
     allowed_host = []
 
     def has_permission(self, request, view):
-        print('HOST PERMISSION CLASS')
         return request.get_host() in self.allowed_hosts

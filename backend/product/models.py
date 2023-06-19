@@ -72,3 +72,12 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify('order-' + self.product.product.title + str(uuid.uuid4())[:4])
         return super().save(*args, **kwargs)
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    feedback = models.TextField(null=True, blank=True)
+    stars = models.IntegerField(null=False, blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return 'rv-' + self.product.title + ' | by-' + self.user
