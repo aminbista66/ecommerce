@@ -58,6 +58,22 @@ class LoginView(views.APIView):
         response.status_code = 403
         return response
 
+class LogoutView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, *args, **kwargs):
+        try:
+            response = Response()
+            # response.delete_cookie('access_token')
+            # response.delete_cookie('refresh_token')
+            response.data = {
+                'message': 'Logout successfull'
+            }
+            response.status_code = 200
+            return response
+        except Exception as e:
+            print(e)
+            return Response({'message': 'something went wrong'}, status=500)
 
 class TokenRefreshView(views.APIView):
     permission_classes = [permissions.AllowAny]
