@@ -12,4 +12,7 @@ urlpatterns = [
     path('cart/delete/<slug:slug>/', views.DeleteCartProductView.as_view()),
     path('cart/decrease-quantity/<slug:slug>/', views.DecreaseQuantityView.as_view()),
     path('cart/increase-quantity/<slug:slug>/', views.IncreaseQuantityView.as_view()),
+    path('order/<slug:slug>/', views.CreateOrderView.as_view()),
+    path('order-delete/<slug:slug>/', views.DeleteOrderView.as_view()),
+
 ]

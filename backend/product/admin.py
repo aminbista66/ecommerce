@@ -44,6 +44,7 @@ class OrderAdmin(admin.ModelAdmin):
         'user',
         'created_at',
         'state',
+        'quantity',
     )
 
 admin.site.register(ProductImage, ProductImageAdmin)

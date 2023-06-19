@@ -6,11 +6,11 @@ from rest_framework import views
 from rest_framework import generics
 from rest_framework import permissions
 
-from .models import Product, CartProduct
+from .models import Product, CartProduct, Order
 from user.models import User
 from user.utils import get_user
 
-from .serializers import product, cart
+from .serializers import product, cart, order
 import random
 
 '''
@@ -157,3 +157,49 @@ class IncreaseQuantityView(generics.GenericAPIView):
             cart_product_.save()
             return Response({"quantity": f'{cart_product.first().quantity}', 'added quantity': f'{request.data.get("quantity")}'})
         return Response({"message": "Product not Found"}, status=404)
+
+class CreateOrderView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, *args, **kwargs):
+        cart_product_list = CartProduct.objects.filter(slug=kwargs.get('slug'))
+
+        if cart_product_list.exists():
+            cart_product = cart_product_list.first()
+            data : dict = self.request.data
+            detail_object = {
+                'phone': data.get('phone'),
+                'address': data.get('address'),
+                'optional_address': f'{data.get("optional_address")}',
+                'city': data.get('city'),
+                'postal_code': data.get('postal_code')
+            }
+            if any(value is None for value in detail_object.values()):
+                return Response({'message': 'checkout detail missing'}, status=403)
+            orderqs = Order.objects.create(
+                product = cart_product.product,
+                user = User.objects.get(id=get_user(self.request)),
+                quantity = cart_product.quantity,
+                **detail_object
+            )
+            product = cart_product.product
+            product.quantity = F('quantity') - cart_product.quantity
+            product.save()
+            cart_product_list.delete()
+            serializer = order.OrderSerializer(orderqs)
+            return Response({'message': 'Order created', 'detail': serializer.data}, status=200)
+        return Response({'message': 'Product not found'}, status=404)
+
+class DeleteOrderView(generics.DestroyAPIView):
+    permission_class = [permissions.IsAuthenticated]
+    lookup_field = 'slug'
+
+    def get_queryset(self):
+        user = User.objects.get(id=get_user(self.request))
+        qs = Order.objects.filter(user=user)
+        return qs
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "successfully deleted"}, status=204)

@@ -21,7 +21,7 @@ class Product(models.Model):
         return self.slug
 
     def save(self, *args, **kwargs):
-        if self.slug == '':
+        if self.slug is None:
             self.slug = slugify('product-' + self.title + str(uuid.uuid4())[:4])
         return super().save(*args, **kwargs)
 
@@ -42,39 +42,49 @@ class CartProduct(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.slug
+        return f'{self.slug}'
 
     def net_price(self):
         return self.quantity * self.product.net_price()
 
     def save(self, *args, **kwargs):
-        if self.slug == '':
+        if self.slug is None:
             self.slug = slugify('cart-' + self.product.title + str(uuid.uuid4())[:4])
         return super().save(*args, **kwargs)
 
 class Order(models.Model):
     ORDER_STATE = (
-        ('PR', 'Preparing'),
-        ('SH', 'Shipped'),
-        ('SC', 'Successful'),
-        ('CL', 'Cancelled')
+        ('Preparing', 'Preparing'),
+        ('Shipped', 'Shipped'),
+        ('Successful', 'Successful'),
+        ('Cancelled', 'Cancelled')
     )
+
     slug = models.SlugField(blank=True, null=True)
-    product = models.ForeignKey(CartProduct, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    state = models.CharField(max_length=255, choices=ORDER_STATE, default='PR')
+    state = models.CharField(max_length=255, choices=ORDER_STATE, default='Preparing')
+    quantity = models.PositiveIntegerField(blank=False, null=False, default=1)
+
+    phone = models.CharField(max_length=14, null=False, blank=False)
+    address = models.CharField(max_length=225*8, null=False, blank=False)
+    optional_address = models.CharField(max_length=225*8, null=True, blank=True)
+    city = models.CharField(max_length=225*4, null=False, blank=False)
+    postal_code = models.CharField(max_length=10, null=False, blank=False)
 
     def __str__(self) -> str:
-        return self.slug
+        return f"{self.slug}"
 
     def net_price(self):
         pass
 
     def save(self, *args, **kwargs):
-        self.slug = slugify('order-' + self.product.product.title + str(uuid.uuid4())[:4])
+        if self.slug is None:
+            self.slug = slugify('order-' + self.product.title + str(uuid.uuid4())[:4])
         return super().save(*args, **kwargs)
 
+''' To be Tested '''
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     feedback = models.TextField(null=True, blank=True)
