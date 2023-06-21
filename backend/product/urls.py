@@ -15,5 +15,4 @@ urlpatterns = [
     path('order/<slug:slug>/', views.CreateOrderView.as_view()),
     path('order-delete/<slug:slug>/', views.DeleteOrderView.as_view()),
     path('add-review/', views.AddReviewView.as_view()),
-    
 ]

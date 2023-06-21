@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Product, Review
+from ..models import Product, Review, ProductImage
 from user.models import User
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -20,6 +20,8 @@ class ProductSerializer(serializers.ModelSerializer):
     net_price = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
+    seller = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -34,8 +36,14 @@ class ProductSerializer(serializers.ModelSerializer):
             'net_price',
             'rating',
             'reviews',
+            'images',
         )
 
+    def get_images(self, obj: Product):
+        return ProductImage.objects.filter(product__slug=obj.slug).values()
+
+    def get_seller(self, obj: Product):
+        return f'{obj.seller.first_name} {obj.seller.last_name}'
     def get_reviews(self, obj: Product):
         review = Review.objects.filter(product__slug=obj.slug)
         return ReviewSerializer(review, many=True).data
