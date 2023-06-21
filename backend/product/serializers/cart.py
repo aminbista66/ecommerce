@@ -31,7 +31,7 @@ class CartSerializer(serializers.ModelSerializer):
     def get_price(self, obj: CartProduct):
         return obj.net_price()
 
-    def get_rating(self, obj):
+    def get_rating(self, obj:CartProduct):
         reviews = Review.objects.filter(product__slug=obj.product.slug)
         stars = [i.stars for i in reviews]
         if self.custom_mean(stars) != None: 

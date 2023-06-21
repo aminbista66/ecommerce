@@ -6,7 +6,7 @@ from rest_framework import views
 from rest_framework import generics
 from rest_framework import permissions
 
-from .models import Product, CartProduct, Order
+from .models import Product, CartProduct, Order, Review
 from user.models import User
 from user.utils import get_user
 
@@ -17,10 +17,10 @@ import random
     - Listing,  [DONE]
     - Detail,   [DONE]
     - Add To Cart, [DONE]
-    - Create Order
+    - Create Order [DONE]
     - increase / decrease quantity [DONE]
-    - cancel order,
-    - payment,
+    - cancel order, [DONE]
+    - payment, 
 '''
 
 
@@ -203,3 +203,26 @@ class DeleteOrderView(generics.DestroyAPIView):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response({"message": "successfully deleted"}, status=204)
+
+class AddReviewView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, *args,**kwargs):
+        data: dict = self.request.data
+        review_object = {
+            'product': data.get('product'),
+            'feedback': data.get('feedback'),
+            'stars': int(data.get('stars')),
+            'user': User.objects.get(id=get_user(self.request))
+        }
+        product_list = Product.objects.filter(slug=review_object.get('product'))
+        print(review_object)
+        if product_list.exists():
+            Review.objects.create(
+                product = product_list.first(),
+                feedback = review_object.get('feedback'),
+                stars = review_object.get('stars'),
+                user = review_object.get('user')
+            )
+            return Response({'message': 'review added'}, status=200)
+        return Response({'message': 'product not found'}, status=404)
