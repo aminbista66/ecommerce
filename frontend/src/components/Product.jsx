@@ -91,7 +91,7 @@ function Product({ data }) {
           <Badge colorScheme="green">TOP SELLER</Badge>
           <Badge colorScheme="red">BEST OFFER</Badge>
         </Stack>
-        <Link to={'product/1'}>
+        <Link to={`product/${data.slug}`}>
         <Title>{data.title}</Title>
         </Link>
         <Seller>By . {data.seller}</Seller>
