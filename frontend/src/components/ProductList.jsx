@@ -20,15 +20,15 @@ const List = styled.div`
   }
 `
 
-const ProductList = () => {
+const ProductList = ({ data }) => {
   return (
     <Box>
       <List>
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
+        {data.map((item, index) => {
+          return (
+            <Product key={index} data={item}/>
+          )
+        })}
       </List>
     </Box>
   );

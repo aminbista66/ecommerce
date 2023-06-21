@@ -98,8 +98,9 @@ const Carts = () => {
   );
 };
 
-function NavBar() {
+function NavBar({ setQuery, fetchQuery }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
   return (
     <>
       <Container>
@@ -110,8 +111,8 @@ function NavBar() {
         </Left>
 
         <Mid>
-          <Input placeholder="SEARCH ITEMS" />
-          <Button>
+          <Input placeholder="SEARCH ITEMS" onChange={e => setQuery(e.target.value)}/>
+          <Button onClick={fetchQuery}>
             <SearchOutlined style={{ marginRight: "4px" }} />
             <Text>SEARCH</Text>
           </Button>

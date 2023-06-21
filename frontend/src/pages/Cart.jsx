@@ -3,6 +3,7 @@ import { Stack, Divider } from "@chakra-ui/react";
 import { Checkout, NavBar, CartProduct } from "../components";
 import styled from "styled-components";
 
+
 const Container = styled.div`
   margin: 0 10rem;
   margin-top: 2rem;
