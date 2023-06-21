@@ -17,20 +17,21 @@ function Home() {
   const[isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
 
-  useEffect(() => {
-    async function fetchProducts() {
-      const res = await fetch(`${productAPIUrl}/list`).then(response => {
-        response.json().then(data => {
-          setProducts(data.results)
-          setIsLoading(false)
-        }).catch(err => {
-          console.error(err)
-        })
-      }).catch(err=>{
+  async function fetchProducts() {
+    const res = await fetch(`${productAPIUrl}/list`).then(response => {
+      response.json().then(data => {
+        setProducts(data.results)
+        setIsLoading(false)
+      }).catch(err => {
         console.error(err)
       })
-      setIsLoading(true);
-    }
+    }).catch(err=>{
+      console.error(err)
+    })
+    setIsLoading(true);
+  }
+
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -51,7 +52,7 @@ function Home() {
   }
   return (
     <>
-      <NavBar setQuery={setQuery} fetchQuery={fetchQuery}/>
+      <NavBar setQuery={setQuery} fetchQuery={fetchQuery} fetchProducts={fetchProducts}/>
       <Container>
         {isLoading ? <Spinner/> : <ProductList data={products}/>}
       </Container>

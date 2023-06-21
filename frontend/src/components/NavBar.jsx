@@ -98,14 +98,14 @@ const Carts = () => {
   );
 };
 
-function NavBar({ setQuery, fetchQuery }) {
+function NavBar({ setQuery, fetchQuery, fetchProducts }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <>
       <Container>
         <Left>
-          <Link to={'/'}>
+          <Link to={'/'} onClick={fetchProducts}>
             <span style={{ color: "#22c55e" }}>E</span>-com
           </Link>
         </Left>
