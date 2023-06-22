@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import { SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   background-color: white;
@@ -100,6 +100,14 @@ const Carts = () => {
 
 function NavBar({ setQuery, fetchQuery, fetchProducts }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  useEffect(() => {
+    if(localStorage.getItem('user') == undefined){
+      setIsLoggedIn(false)
+    } else {
+      setIsLoggedIn(true)
+    }
+  })
 
   return (
     <>

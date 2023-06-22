@@ -6,3 +6,4 @@ export { default as Rating } from "./Rating";
 export { default as CartProduct } from "./CartProduct";
 export { default as Checkout } from "./Checkout";
 export { default as Logo } from "./Logo";
+export { default as Pagination } from "./Pagination";

@@ -47,7 +47,7 @@ function Cart() {
         .catch((err) => {
           console.log(err);
         });
-      // setIsLoading(true);
+      setIsLoading(true);
     }
   }, []);
 

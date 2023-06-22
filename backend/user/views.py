@@ -24,6 +24,7 @@ class LoginView(views.APIView):
     def post(self, *args, **kwargs):
         response = Response()
         data: dict = self.request.data
+        print(data)
         user_object = {
             'email': data.get('email'),
             'password': data.get('password'),

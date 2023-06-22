@@ -67,18 +67,6 @@ const Price = styled.div`
   font-size: 0.85rem;
 `;
 
-// const Button = styled.button`
-//   border: transparent;
-//   outline: none;
-//   border-radius: 8px;
-//   padding: 4px;
-//   background-color: transparent;
-
-//   &:hover {
-//     transition: 0.2s ease all;
-//     background-color: #eeeeee;
-//   }
-// `;
 
 function Product({ data }) {
   return (
