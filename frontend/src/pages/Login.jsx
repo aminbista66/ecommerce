@@ -18,6 +18,7 @@ import { ViewIcon, ViewOffIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { Logo } from "../components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {authAPIUrl} from '../baseURL';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -28,13 +29,26 @@ export default function Login() {
 
   const [data, setData] = useState(initialData);
   const [showPassword, setShowPassword] = useState(false);
-
+  var form = new FormData();
   const handleChange = (e) => {
     setData({
       ...data,
       [e.target.name]: e.target.value.trim(),
     });
   };
+  async function login(){
+    const res = await fetch(`${authAPIUrl}/login/`, {
+      method: 'post',
+      body: form,
+    }).then(response => {
+      console.log(response)
+    }).catch(err => console.error(err))
+  }
+  function handleSubmit(){
+    form.append('email', data.email)
+    form.append('password', data.password)
+    login()
+  }
   return (
     <>
       <Box bg={useColorModeValue("gray.50", "gray.800")}>
@@ -95,7 +109,7 @@ export default function Login() {
                 <InputGroup>
                   <Input
                     onChange={handleChange}
-                    name="password2"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                   />
                   <InputRightElement h={"full"}>
@@ -130,7 +144,7 @@ export default function Login() {
                     transform: "translateY(2px)",
                     boxShadow: "lg",
                   }}
-                  disabled
+                  onClick={handleSubmit}
                 >
                   Login
                 </Button>
