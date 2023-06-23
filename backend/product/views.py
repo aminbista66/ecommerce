@@ -229,3 +229,12 @@ class AddReviewView(views.APIView):
             )
             return Response({'message': 'review added'}, status=200)
         return Response({'message': 'product not found'}, status=404)
+
+class CheckoutSummaryView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, *args, **kwargs):
+        cart_product_list = CartProduct.objects.filter(user=User.objects.get(id=get_user(self.request)))
+        if cart_product_list.exists():
+            return Response({'total': sum([cp.net_price() for cp in cart_product_list])}, status=200)
+        return Response({'total': 0}, status=200)

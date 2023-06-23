@@ -8,6 +8,7 @@ class CartSerializer(serializers.ModelSerializer):
     product_slug = serializers.CharField(source='product.slug')
     seller = serializers.CharField(source='product.seller')
     rating = serializers.SerializerMethodField(read_only=True)
+    stock = serializers.SerializerMethodField()
 
     class Meta:
         model = CartProduct
@@ -22,11 +23,15 @@ class CartSerializer(serializers.ModelSerializer):
             'price',
             'quantity',
             'rating',
+            'stock',
         )
 
     def get_images(self, obj):
         images = ProductImage.objects.filter(product__slug=obj.product.slug).values()
         return images
+
+    def get_stock(self, obj: CartProduct):
+        return obj.product.quantity
 
     def get_price(self, obj: CartProduct):
         return obj.net_price()
