@@ -40,32 +40,15 @@ export default function Login() {
   };
 
   async function login() {
-    // const rawResponse = await fetch(`${authAPIUrl}/login/`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(data),
-    //   credentials: 'include'
-    // });
-    // console.log(rawResponse)
     axios.post(`${authAPIUrl}/login/`, data, {
       headers: {
         'Content-Type': 'application/json'
       },
       withCredentials: true
     }).then(res => {
-      console.log(res)
+      localStorage.setItem('user', 'true')
+      navigate('/')
     })
-    // request({
-    //   url: '/user/login/',
-    //   method: 'post',
-    //   withCredentials: true,
-    //   data: data
-    // }).then(res => {
-    //   console.log(res)
-    // })
   }
 
   return (

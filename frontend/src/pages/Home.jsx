@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { productAPIUrl } from "../baseURL";
 import { Spinner } from "@chakra-ui/react";
-import {request} from '../api'
 
 const Container = styled.div`
   display: flex;
@@ -45,12 +44,13 @@ function Home() {
   }
 
   useEffect(() => {
-    request({
-      url: '/product/cart/list',
-      method: 'get'
-    }).then(res => {
-      console.log(res)
-    })
+    // fetch(`${productAPIUrl}/cart/list`, {
+    //   credentials: "include",
+    // }).then((res) => {
+    //   res.json().then((data) => {
+    //     console.log(data);
+    //   });
+    // });
     fetchProducts();
   }, []);
 
@@ -107,13 +107,13 @@ function Home() {
         {isLoading ? <Spinner /> : <ProductList data={products} />}
       </Container>
       <Pagination
-          products={products}
-          nextURL={nextURL}
-          prevURL={prevURL}
-          changePage={changePage}
-          currentPage={currentPage}
-          count={count}
-        />
+        products={products}
+        nextURL={nextURL}
+        prevURL={prevURL}
+        changePage={changePage}
+        currentPage={currentPage}
+        count={count}
+      />
     </>
   );
 }

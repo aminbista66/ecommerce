@@ -102,7 +102,7 @@ function NavBar({ setQuery, fetchQuery, fetchProducts }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
-    if(localStorage.getItem('user') == undefined){
+    if(localStorage.getItem('user') == null){
       setIsLoggedIn(false)
     } else {
       setIsLoggedIn(true)

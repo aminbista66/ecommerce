@@ -10,3 +10,14 @@ export const request = axios.create({
   credentials: "same-origin",
   timeout: 300000,
 });
+
+export const addToCart = (slug, quantity) => {
+  return fetch(`${baseUrl}/product/cart/add/${slug}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({quantity: quantity}),
+    credentials: 'include',
+  })
+}

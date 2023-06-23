@@ -29,10 +29,11 @@ const CheckoutWrapper = styled.div`
 function Cart() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     async function fetchProducts() {
-      const res = await fetch(`${cartAPIUrl}/list/`)
+      const res = await fetch(`${cartAPIUrl}/list/`, {credentials: 'include'})
         .then((response) => {
           response
             .json()
@@ -41,15 +42,16 @@ function Cart() {
               setIsLoading(false);
             })
             .catch((err) => {
-              console.log(err);
+              console.error(err);
             });
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
       setIsLoading(true);
     }
-  }, []);
+    fetchProducts();
+  }, [refresh]);
 
   return (
     <>
@@ -57,23 +59,23 @@ function Cart() {
       <Container>
         {!isLoading ? (
           <Stack direction={"column"}>
-            <Heading>Cart Items ( 3 )</Heading>
+            <Heading>Cart Items ( {products.length} )</Heading>
             <Stack direction={"column"}>
-              {/* {products.map((item, index) => {
+              {products.map((item, index) => {
                 return (
-                  <>
-                  <CartProduct key={index}/>
-                  <Divider key={index+1}/>
-                  </>
+                  <div key={index}>
+                  <CartProduct product={item} setRefresh={setRefresh}/>
+                  <Divider />
+                  </div>
                 )
-              })} */}
-                  <CartProduct />
+              })}
+                  {/* <CartProduct />
                   <Divider />
                   <CartProduct />
-                  <Divider />
+                  <Divider /> */}
             </Stack>
             <CheckoutWrapper>
-              <Checkout />
+              <Checkout productCount={products.length}/>
             </CheckoutWrapper>
           </Stack>
         ) : (

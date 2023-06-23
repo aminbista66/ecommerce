@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Box, Button, Flex } from "@chakra-ui/react";
+import { cartAPIUrl } from "../baseURL";
 
 const Text = styled.p`
   font-size: 1.25rem;
@@ -19,7 +20,24 @@ const TextLight = styled.p`
   justify-content: space-between;
 `;
 
-function Checkout() {
+function Checkout({ productCount }) {
+  const [summary, setSummary] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  async function fetchsummary() {
+    const rawResponse = await fetch(`${cartAPIUrl}/summary/`, {
+      credentials: "include",
+    }).then((res) => {
+      res.json().then((data) => {
+        setSubtotal(data.total);
+      });
+    });
+  }
+  useEffect(() => {
+    fetchsummary();
+  }, []);
+  useEffect(() => {
+    setSummary(subtotal + 15 * productCount);
+  }, [subtotal]);
   return (
     <Box w={"400px"} bg={"#f7fafc"} padding={"2rem"} borderRadius={"0.5rem"}>
       <Flex direction={"column"}>
@@ -30,15 +48,15 @@ function Checkout() {
           >
             <TextLight>
               <span>Subtotal</span>
-              <span>$499</span>
+              <span>${subtotal}</span>
             </TextLight>
             <TextLight>
               <span>Shipping + Tax</span>
-              <span>$20</span>
+              <span>${15 * productCount}</span>
             </TextLight>
             <Text>
               <span>Total</span>
-              <span>$519</span>
+              <span>${subtotal ? summary : 0}</span>
             </Text>
           </div>
         </Box>

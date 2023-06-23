@@ -11,6 +11,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import styles from "./cartproduct.module.css";
+import {cartAPIUrl} from '../baseURL'
 
 const Container = styled.div`
   display: flex;
@@ -61,16 +62,56 @@ const LightText = styled.p`
 
 const PriceContainer = styled.div``;
 
-function CartProduct() {
+function CartProduct({ product, setRefresh }) {
+  function handleRemove(slug){
+    fetch(`${cartAPIUrl}/delete/${slug}/`, {
+      method: 'DELETE',
+      credentials: 'include'
+    }).then(res => {
+        if (res.ok == true){
+          setRefresh(prev => !prev)
+        }
+    })
+  }
+  function handleIncrease() {
+    fetch(`${cartAPIUrl}/increase-quantity/${product.slug}/`, {
+      method: 'POST',
+      body: JSON.stringify({quantity: 1}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    }).then(res => {
+      res.json().then(data => {
+        console.log(data)
+        setRefresh(prev => !prev)
+      })
+    })
+  }
+  function handleDecrease() {
+    fetch(`${cartAPIUrl}/decrease-quantity/${product.slug}/`, {
+      method: 'POST',
+      body: JSON.stringify({quantity: 1}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    }).then(res => {
+      res.json().then(data => {
+        console.log(data)
+        setRefresh(prev => !prev)
+      })
+    })
+  }
   return (
     <>
       <Container>
         <Left>
-          <Image src="https://source.unsplash.com/random/900x700/?sneaker" />
+          <Image src={product.images[0].image} />
           <Detail>
-            <Badge colorScheme="yellow">Only 2 left</Badge>
-            <Text>Jordan sneaker J-1 High</Text>
-            <LightText>University Blue, 36</LightText>
+            {product.stock < 5 ? <Badge colorScheme="yellow">Only {product.stock} left</Badge> : <></>}
+            <Text>{product.product_name}</Text>
+            <LightText>By | {product.seller}</LightText>
           </Detail>
         </Left>
         <div>
@@ -85,21 +126,21 @@ function CartProduct() {
               }}
             >
               Qty:
-              <NumberInput min={0} defaultValue={1}>
+              <NumberInput min={1} defaultValue={product.quantity} max={product.stock}>
                 <NumberInputField />
                 <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
+                  <NumberIncrementStepper onClick={handleIncrease}/>
+                  <NumberDecrementStepper onClick={handleDecrease}/>
                 </NumberInputStepper>
               </NumberInput>
             </div>
             <PriceContainer>
               <Stack>
-                <Text>$499</Text>
+                <Text>${product.price}</Text>
               </Stack>
             </PriceContainer>
           </Right>
-          <span className={styles.del}>remove</span>
+          <span className={styles.del} onClick={() => handleRemove(product.slug)}>remove</span>
         </div>
       </Container>
     </>

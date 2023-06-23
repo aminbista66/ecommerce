@@ -3,6 +3,7 @@ import { Stack, Badge, IconButton } from "@chakra-ui/react";
 import Rating from "./Rating";
 import { BsCart3 } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { addToCart } from "../api";
 
 const Container = styled.div`
   width: 400px;
@@ -69,6 +70,13 @@ const Price = styled.div`
 
 
 function Product({ data }) {
+  function handleAddToCart(slug) {
+    addToCart(slug, 1).then(res => {
+      res.json().then(data => {
+        console.log(data)
+      })
+    })
+  }
   return (
     <Container>
       <ImgContainer>
@@ -86,7 +94,7 @@ function Product({ data }) {
         <BottomContainer>
           <Rating rating={data.rating} />
           <PriceCartAction>
-            <IconButton icon={<BsCart3 size={20} />} />
+            <IconButton icon={<BsCart3 size={20} onClick={() => handleAddToCart(data.slug)}/>} />
 
             <Price>
               <span style={{ color: "tomato", fontWeight: "bold" }}>-{data.discount_percent}%</span>
