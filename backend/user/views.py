@@ -42,16 +42,12 @@ class LoginView(views.APIView):
             if user.is_active:
                 raw_token = RefreshToken.for_user(user)
                 response.set_cookie("access_token", str(
-                    raw_token.access_token), httponly=True, secure=False, samesite=None, max_age=6000*1000)
+                    raw_token.access_token), httponly=True)
                 response.set_cookie("refresh_token", str(
-                    raw_token), httponly=True, secure=False, samesite=None, max_age=6000*1000)
-
-                response_data = {
-                    **user_object,
-                }
+                    raw_token), httponly=True)
 
                 response.data = {
-                    "message": "Auth Cookie Set", "data": response_data,
+                    "message": "Auth Cookie Set"
                 }
                 return response
         response.data = {
