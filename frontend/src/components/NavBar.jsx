@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import { SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   background-color: white;
@@ -98,20 +98,29 @@ const Carts = () => {
   );
 };
 
-function NavBar() {
+function NavBar({ setQuery, fetchQuery, fetchProducts }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  useEffect(() => {
+    if(localStorage.getItem('user') == undefined){
+      setIsLoggedIn(false)
+    } else {
+      setIsLoggedIn(true)
+    }
+  })
+
   return (
     <>
       <Container>
         <Left>
-          <Link to={'/'}>
+          <Link to={'/'} onClick={fetchProducts}>
             <span style={{ color: "#22c55e" }}>E</span>-com
           </Link>
         </Left>
 
         <Mid>
-          <Input placeholder="SEARCH ITEMS" />
-          <Button>
+          <Input placeholder="SEARCH ITEMS" onChange={e => setQuery(e.target.value)}/>
+          <Button onClick={fetchQuery}>
             <SearchOutlined style={{ marginRight: "4px" }} />
             <Text>SEARCH</Text>
           </Button>

@@ -31,7 +31,7 @@ class ProductImage(models.Model):
     image = models.URLField()
 
     def __str__(self) -> str:
-        return self.product + ' | image'
+        return str(self.product.slug) + ' | image'
 
 class CartProduct(models.Model):
     id = models.BigAutoField(primary_key=True)

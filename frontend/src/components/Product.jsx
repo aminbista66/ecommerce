@@ -67,43 +67,31 @@ const Price = styled.div`
   font-size: 0.85rem;
 `;
 
-// const Button = styled.button`
-//   border: transparent;
-//   outline: none;
-//   border-radius: 8px;
-//   padding: 4px;
-//   background-color: transparent;
 
-//   &:hover {
-//     transition: 0.2s ease all;
-//     background-color: #eeeeee;
-//   }
-// `;
-
-function Product() {
+function Product({ data }) {
   return (
     <Container>
       <ImgContainer>
-        <Img src="https://source.unsplash.com/random/900x700/?t-shirt" alt="" />
+        <Img src={data.images[0].image} alt="" loading="lazy"/>
       </ImgContainer>
       <ActionContainer>
         <Stack direction="row" sx={{ padding: "5px" }}>
           <Badge colorScheme="green">TOP SELLER</Badge>
           <Badge colorScheme="red">BEST OFFER</Badge>
         </Stack>
-        <Link to={'product/1'}>
-        <Title>T-shirt for summer 100% cotton</Title>
+        <Link to={`product/${data.slug}`}>
+        <Title>{data.title}</Title>
         </Link>
-        <Seller>By . Ghumti Pasal</Seller>
+        <Seller>By . {data.seller}</Seller>
         <BottomContainer>
-          <Rating rating={3.6} />
+          <Rating rating={data.rating} />
           <PriceCartAction>
             <IconButton icon={<BsCart3 size={20} />} />
 
             <Price>
-              <span style={{ color: "tomato", fontWeight: "bold" }}>-20%</span>
-              <strike>Rs. 1200</strike>
-              <span>Rs. 1000</span>
+              <span style={{ color: "tomato", fontWeight: "bold" }}>-{data.discount_percent}%</span>
+              <strike>$. {data.price}</strike>
+              <span>$. {data.net_price}</span>
             </Price>
           </PriceCartAction>
         </BottomContainer>

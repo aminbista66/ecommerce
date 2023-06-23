@@ -24,6 +24,7 @@ class LoginView(views.APIView):
     def post(self, *args, **kwargs):
         response = Response()
         data: dict = self.request.data
+        print(data)
         user_object = {
             'email': data.get('email'),
             'password': data.get('password'),
@@ -41,16 +42,12 @@ class LoginView(views.APIView):
             if user.is_active:
                 raw_token = RefreshToken.for_user(user)
                 response.set_cookie("access_token", str(
-                    raw_token.access_token), httponly=True, secure=False, samesite="Lax")
+                    raw_token.access_token), httponly=True)
                 response.set_cookie("refresh_token", str(
-                    raw_token), httponly=True, secure=False, samesite="Lax")
-
-                response_data = {
-                    **user_object,
-                }
+                    raw_token), httponly=True)
 
                 response.data = {
-                    "message": "Auth Cookie Set", "data": response_data,
+                    "message": "Auth Cookie Set"
                 }
                 return response
         response.data = {

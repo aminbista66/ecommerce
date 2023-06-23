@@ -14,10 +14,13 @@ import {
   InputRightElement,
   Center,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon, ArrowBackIcon } from '@chakra-ui/icons';
+import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { Logo } from "../components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { authAPIUrl } from "../baseURL";
+import axios from "axios";
+import {request} from '../api'
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,6 +38,36 @@ export default function Login() {
       [e.target.name]: e.target.value.trim(),
     });
   };
+
+  async function login() {
+    // const rawResponse = await fetch(`${authAPIUrl}/login/`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(data),
+    //   credentials: 'include'
+    // });
+    // console.log(rawResponse)
+    axios.post(`${authAPIUrl}/login/`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    }).then(res => {
+      console.log(res)
+    })
+    // request({
+    //   url: '/user/login/',
+    //   method: 'post',
+    //   withCredentials: true,
+    //   data: data
+    // }).then(res => {
+    //   console.log(res)
+    // })
+  }
+
   return (
     <>
       <Box bg={useColorModeValue("gray.50", "gray.800")}>
@@ -95,7 +128,7 @@ export default function Login() {
                 <InputGroup>
                   <Input
                     onChange={handleChange}
-                    name="password2"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                   />
                   <InputRightElement h={"full"}>
@@ -105,7 +138,7 @@ export default function Login() {
                         setShowPassword((showPassword) => !showPassword)
                       }
                     >
-                      {showPassword ? <ViewIcon/> : <ViewOffIcon/>}
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
@@ -130,12 +163,14 @@ export default function Login() {
                     transform: "translateY(2px)",
                     boxShadow: "lg",
                   }}
-                  disabled
+                  onClick={login}
                 >
                   Login
                 </Button>
                 <Center>
-                  <Link href={'/register'} color={"grey.900"}>Don't have an account?</Link>
+                  <Link href={"/register"} color={"grey.900"}>
+                    Don't have an account?
+                  </Link>
                 </Center>
               </Stack>
             </Stack>

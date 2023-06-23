@@ -32,12 +32,14 @@ class ListProductView(generics.ListAPIView):
 
 class DeatilProductView(generics.RetrieveAPIView):
     serializer_class = product.ProductSerializer
-    permission_class = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
     queryset = Product.objects.all()
     lookup_field = 'slug'
 
 
 class SearchProductView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
     def get(self, *args, **kwargs):
         query = self.request.GET.get('q')
         search_query = SearchQuery(query)
@@ -90,17 +92,18 @@ class AddToCartView(generics.GenericAPIView):
 
 
 class ListCartProductView(generics.ListAPIView):
-    permission_class = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = cart.CartSerializer
     lookup_field = 'slug'
+    
 
     def get_queryset(self):
-        qs = CartProduct.objects.filter(user__id=get_user(self.request))
+        qs = CartProduct.objects.filter(user__id=get_user(self.request)).order_by('slug')
         return qs
 
 
 class DeleteCartProductView(generics.DestroyAPIView):
-    permission_class = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'slug'
 
     def get_queryset(self):
@@ -115,7 +118,7 @@ class DeleteCartProductView(generics.DestroyAPIView):
 
 
 class DecreaseQuantityView(generics.GenericAPIView):
-    permission_class = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         cart_product = CartProduct.objects.filter(slug=kwargs.get('slug'))
@@ -137,7 +140,7 @@ class DecreaseQuantityView(generics.GenericAPIView):
 
 
 class IncreaseQuantityView(generics.GenericAPIView):
-    permission_class = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         cart_product = CartProduct.objects.filter(slug=kwargs.get('slug'))
@@ -191,7 +194,7 @@ class CreateOrderView(views.APIView):
         return Response({'message': 'Product not found'}, status=404)
 
 class DeleteOrderView(generics.DestroyAPIView):
-    permission_class = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'slug'
 
     def get_queryset(self):
