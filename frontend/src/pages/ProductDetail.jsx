@@ -24,16 +24,18 @@ import { Rating, NavBar } from "../components";
 import React, { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { productAPIUrl } from "../baseURL";
+import { addToCart } from "../api";
 
 export default function ProductDetail() {
-  const [value, setValue] = useState(1);
-  const handleChange = (value) => setValue(value);
+  const [quantity, setQuantity] = useState(1);
+  const handleChange = (value) => setQuantity(value);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
 
   const { slug } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchDetail() {
@@ -47,6 +49,9 @@ export default function ProductDetail() {
     }
     fetchDetail()
   }, []);
+  // function handleChange(e) {
+  //   console.log(e.target.value)
+  // }
 
   return (
     <>
@@ -213,7 +218,7 @@ export default function ProductDetail() {
                   QUANTITY
                 </Text>
                 <NumberInput
-                  value={value}
+                  value={quantity}
                   size="md"
                   maxW={24}
                   defaultValue={1}
@@ -222,7 +227,7 @@ export default function ProductDetail() {
                   onChange={handleChange}
                 >
                   <NumberInputField />
-                  <NumberInputStepper>
+                  <NumberInputStepper onChange={(e) => handleChange(e)}>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />
                   </NumberInputStepper>
@@ -240,7 +245,7 @@ export default function ProductDetail() {
                       transform: "translateY(2px)",
                       boxShadow: "lg",
                     }}
-                    onClick={() => AddToCart(data.slug, value)}
+                    onClick={() => addToCart(data.slug, quantity).then(res => {navigate('/cart')})}
                   >
                     Add to cart
                   </Button>
