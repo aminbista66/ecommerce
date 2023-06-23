@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { productAPIUrl } from "../baseURL";
 import { Spinner } from "@chakra-ui/react";
+import {request} from '../api'
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +45,12 @@ function Home() {
   }
 
   useEffect(() => {
+    request({
+      url: '/product/cart/list',
+      method: 'get'
+    }).then(res => {
+      console.log(res)
+    })
     fetchProducts();
   }, []);
 
