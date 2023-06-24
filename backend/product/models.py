@@ -14,6 +14,7 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(null=False, default=1, blank=False)
     price = models.FloatField(null=False, blank=False)
     discount_percent = models.FloatField(null=False, blank=False, default=0)
+    thumbnail = models.URLField(null=True, blank=True)
 
     def net_price(self):
         return (self.price - self.discount_percent * 0.01 * self.price)
