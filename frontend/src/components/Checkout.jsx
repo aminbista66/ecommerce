@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { cartAPIUrl } from "../baseURL";
+import { useNavigate } from "react-router-dom";
 
 const Text = styled.p`
   font-size: 1.25rem;
@@ -23,6 +24,7 @@ const TextLight = styled.p`
 function Checkout({ productCount }) {
   const [summary, setSummary] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
+  const navigate = useNavigate();
   async function fetchsummary() {
     const rawResponse = await fetch(`${cartAPIUrl}/summary/`, {
       credentials: "include",
@@ -73,7 +75,7 @@ function Checkout({ productCount }) {
             transform: "translateY(2px)",
             boxShadow: "lg",
           }}
-          disabled
+          onClick={() => navigate('/checkout')}
         >
           Checkout
         </Button>

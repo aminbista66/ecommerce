@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'user',
     'product',
+    'seller',
 ]
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

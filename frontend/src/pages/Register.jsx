@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { Logo } from "../components";
+import { baseUrl } from '../baseURL';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ export default function Register() {
     last_name: "",
     password: "",
     password2: "",
-    is_owner: false,
   };
   const [data, setData] = useState(initialData);
 
@@ -39,6 +39,17 @@ export default function Register() {
       ...data,
       [e.target.name]: e.target.value.trim(),
     });
+  }
+  function createUser() {
+    fetch(`${baseUrl}/user/register/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(res => {
+        if (res.status === 200) navigate('/login')
+    }).catch(err => console.error(err))
   }
   return (
     <>
@@ -122,7 +133,7 @@ export default function Register() {
                   <Input
                     type={showPassword ? "text" : "password"}
                     onChange={handleChange}
-                    name="password1"
+                    name="password"
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -169,9 +180,9 @@ export default function Register() {
                     transform: "translateY(2px)",
                     boxShadow: "lg",
                   }}
-                  disabled
+                  onClick={() => createUser()}
                 >
-                  Login
+                  Register
                 </Button>
                 <Center>
                   <Link href="/login" color={"grey.900"}>

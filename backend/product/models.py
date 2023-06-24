@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from user.models import User
+from seller.models import Package
 import uuid
 
 class Product(models.Model):
@@ -52,11 +53,12 @@ class CartProduct(models.Model):
             self.slug = slugify('cart-' + self.product.title + str(uuid.uuid4())[:4])
         return super().save(*args, **kwargs)
 
+
 class Order(models.Model):
     ORDER_STATE = (
         ('Preparing', 'Preparing'),
         ('Shipped', 'Shipped'),
-        ('Successful', 'Successful'),
+        ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled')
     )
     PAYMENT_METHOD = (
@@ -75,6 +77,8 @@ class Order(models.Model):
     city = models.CharField(max_length=225*4, null=False, blank=False)
     postal_code = models.CharField(max_length=10, null=False, blank=False)
     payment_method = models.CharField(max_length=255, null=False, blank=False, choices=PAYMENT_METHOD, default='COD')
+
+    package = models.ForeignKey(Package, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return f"{self.slug}"

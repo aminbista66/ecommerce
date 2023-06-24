@@ -99,7 +99,7 @@ function Checkout() {
               <Box>
                 <Text>Phone number</Text>
                 <InputGroup>
-                  <InputLeftAddon children="+234" />
+                  <InputLeftAddon children="+977" />
                   <Input
                     type="tel"
                     placeholder="Your phone number"
