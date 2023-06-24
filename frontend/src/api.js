@@ -21,3 +21,10 @@ export const addToCart = (slug, quantity) => {
     credentials: 'include',
   })
 }
+
+export const createOrder = (slug) => {
+  return fetcj(`${baseUrl}/order/${slug}/`, {
+    method: 'POST',
+    credentials: 'include',
+  })
+}

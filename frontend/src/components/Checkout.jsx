@@ -60,7 +60,7 @@ function Checkout({ productCount }) {
             </Text>
           </div>
         </Box>
-        {/* <Button colorScheme="blue">Checkout</Button> */}
+
         <Button
           rounded={"md"}
           w={"full"}
