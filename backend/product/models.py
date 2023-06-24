@@ -59,7 +59,10 @@ class Order(models.Model):
         ('Successful', 'Successful'),
         ('Cancelled', 'Cancelled')
     )
-
+    PAYMENT_METHOD = (
+        ('COD', 'COD'),
+        ('Card', 'Card')
+    )
     slug = models.SlugField(blank=True, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -69,9 +72,9 @@ class Order(models.Model):
 
     phone = models.CharField(max_length=14, null=False, blank=False)
     address = models.CharField(max_length=225*8, null=False, blank=False)
-    optional_address = models.CharField(max_length=225*8, null=True, blank=True)
     city = models.CharField(max_length=225*4, null=False, blank=False)
     postal_code = models.CharField(max_length=10, null=False, blank=False)
+    payment_method = models.CharField(max_length=255, null=False, blank=False, choices=PAYMENT_METHOD, default='COD')
 
     def __str__(self) -> str:
         return f"{self.slug}"

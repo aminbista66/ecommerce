@@ -173,7 +173,6 @@ class CreateOrderView(views.APIView):
             detail_object = {
                 'phone': data.get('phone'),
                 'address': data.get('address'),
-                'optional_address': f'{data.get("optional_address")}',
                 'city': data.get('city'),
                 'postal_code': data.get('postal_code')
             }

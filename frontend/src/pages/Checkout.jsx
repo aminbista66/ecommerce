@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Center,
@@ -10,8 +10,74 @@ import {
   Select,
   Button,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { productAPIUrl, cartAPIUrl } from "../baseURL";
 
 function Checkout() {
+  const navigate = useNavigate();
+  const initialData = Object.freeze({
+    phone: "",
+    address: "",
+    postal_code: "",
+    city: "",
+  });
+
+  const [data, setData] = useState(initialData);
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
+
+
+
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [refresh, setRefresh] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const res = await fetch(`${cartAPIUrl}/list/`, {credentials: 'include'})
+        .then((response) => {
+          response
+            .json()
+            .then((data) => {
+              setProducts(data.results);
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      setIsLoading(true);
+    }
+    fetchProducts();
+  }, [refresh]);
+
+  function completeCheckout() {
+    console.log(data)
+    if(products.length !== 0) {
+      for(let i=0; i<products.length; i++){
+        fetch(`${productAPIUrl}/order/${products[i].slug}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+          credentials: 'include'
+        }).then(res => {
+          if (res.ok){
+            navigate('/')
+          }
+        }).catch(err => console.error(err))
+      }
+    }
+  }
   return (
     <>
       {/* <NavBar/> */}
@@ -34,7 +100,12 @@ function Checkout() {
                 <Text>Phone number</Text>
                 <InputGroup>
                   <InputLeftAddon children="+234" />
-                  <Input type="tel" placeholder="Your phone number" />
+                  <Input
+                    type="tel"
+                    placeholder="Your phone number"
+                    name="phone"
+                    onChange={handleChange}
+                  />
                 </InputGroup>
               </Box>
               <Box>
@@ -43,6 +114,18 @@ function Checkout() {
                   size={"md"}
                   margin={"10px 0 0 0"}
                   placeholder="Zip code"
+                  name="postal_code"
+                  onChange={handleChange}
+                />
+              </Box>
+              <Box>
+                <Text>Address</Text>
+                <Input
+                  size={"md"}
+                  margin={"10px 0 0 0"}
+                  placeholder="Your current city"
+                  name="address"
+                  onChange={handleChange}
                 />
               </Box>
               <Box>
@@ -51,6 +134,8 @@ function Checkout() {
                   size={"md"}
                   margin={"10px 0 0 0"}
                   placeholder="Your current city"
+                  name="city"
+                  onChange={handleChange}
                 />
               </Box>
               <Select
@@ -71,7 +156,7 @@ function Checkout() {
                   transform: "translateY(2px)",
                   boxShadow: "lg",
                 }}
-                // onClick={() => addToCart(data.slug, quantity).then(res => {navigate('/cart')})}
+                onClick={completeCheckout}
               >
                 Checkout
               </Button>

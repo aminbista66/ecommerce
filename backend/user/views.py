@@ -19,7 +19,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 class LoginView(views.APIView):
-    permission_classes = []
+    permission_classes = [permissions.AllowAny]
 
     def post(self, *args, **kwargs):
         response = Response()
