@@ -20,7 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { Logo } from "../components";
-import { baseUrl } from '../baseURL';
+import { baseUrl } from "../baseURL";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -40,23 +40,25 @@ export default function Register() {
       [e.target.name]: e.target.value.trim(),
     });
   }
-  function createUser() {
-    return fetch(`${baseUrl}/user/register/`, {
-      method: 'POST',
+  async function createUser() {
+    return await fetch(`${baseUrl}/user/register/`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-    }).then(res => {
-        if (res.status === 200) navigate('/login')
-    }).catch(err => console.error(err))
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (res.status === 201) navigate("/login");
+      })
+      .catch((err) => console.error(err));
   }
   return (
     <>
       <Box bg={useColorModeValue("gray.50", "gray.800")}>
         <Button
           leftIcon={<ArrowBackIcon />}
-          color={'grey.900'}
+          color={"grey.900"}
           variant="link"
           sx={{
             position: "absolute",
