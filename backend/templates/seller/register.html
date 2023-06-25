@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{%load tailwind_filters %}
+<div class="h-screen flex justify-center items-center">
+    <div>
+        <div class="w-full flex justify-center">
+            <lord-icon
+                src="https://cdn.lordicon.com/dxjqoygy.json"
+                trigger="hover"
+                colors="primary:#121331,secondary:#e83a30"
+                style="width:80px;height:80px">
+            </lord-icon>
+        </div>
+        <div class="w-full flex justify-center mb-10"><h1 class="text-xl font-semibold text-gray-700">Register Account</h1></div>
+        <form action="" method="post">
+            {%csrf_token%}
+            {{form | crispy}}
+            <div class="w-full flex justify-center mb-4"><a href="" class="text-sm text-sky-400">Don't have an account?</a></div>
+            <div class="w-screen flex justify-center">
+                <button
+                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+              >
+                Register
+              </button>
+            </div>
+        </form>
+    </div>    
+</div>
+
+{% endblock %}

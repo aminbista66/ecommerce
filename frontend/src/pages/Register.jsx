@@ -41,7 +41,7 @@ export default function Register() {
     });
   }
   function createUser() {
-    fetch(`${baseUrl}/user/register/`, {
+    return fetch(`${baseUrl}/user/register/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -180,7 +180,7 @@ export default function Register() {
                     transform: "translateY(2px)",
                     boxShadow: "lg",
                   }}
-                  onClick={() => createUser()}
+                  onClick={createUser}
                 >
                   Register
                 </Button>

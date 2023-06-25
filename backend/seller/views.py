@@ -7,8 +7,11 @@ from django.db.models import F
 
 from product.models import Product, ProductImage
 
+
+@login_required
 def index(request):
     return render(request, 'seller/index.html', {})
+
 
 class Inventory(LoginRequiredMixin, ListView):
     template_name = 'seller/inventory.html'

@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'user',
     'product',
     'seller',
+    "crispy_forms",
+    "crispy_tailwind",
 ]
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -213,3 +215,12 @@ SIMPLE_JWT = {
 ''' FOR DEVELOPMENT ONLY !!!! '''
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'ecommerce@gmail.com'
+
+LOGIN_URL = '/login/'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = LOGIN_URL
